@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:httprequest/pages/movie_detail.dart';
 import 'package:httprequest/service/http_service.dart';
 
 class MovieList extends StatefulWidget {
@@ -27,27 +28,68 @@ class _MovieListState extends State<MovieList> {
     super.initState();
   }
 
+  String imgPath = 'https://image.tmdb.org/t/p/w500';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Popular Movies",
-              style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
-        ),
-        body: ListView.builder(
+      appBar: AppBar(
+        title: Text("Popular Movies",
+            style: TextStyle(fontSize: 24), textAlign: TextAlign.center),
+      ),
+      body: ListView.builder(
           itemCount: (this.moviesCount == null) ? 0 : this.moviesCount,
           itemBuilder: (context, int position) {
             return Card(
               color: Colors.white,
               elevation: 2.0,
               child: ListTile(
-                title: Text(movies[position].title),
-                subtitle: Text(
-                  'Rating = ' + movies[position].voteAverage.toString(),
+                onTap: () {
+                  MaterialPageRoute route = MaterialPageRoute(
+                      builder: (_) => MovieDetail(movies[position]));
+                  Navigator.push(context, route);
+                },
+                title: Row(
+                  children: [
+                    SizedBox(
+                        width: 100,
+                        child: ClipRRect(
+                          child: Image.network(
+                            imgPath + movies[position].posterPath,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16, top: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              movies[position].title,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  size: 12,
+                                ),
+                                Text(" " +
+                                    movies[position].voteAverage.toString()),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             );
-          },
-        ));
+          }),
+    );
   }
 }
