@@ -1,7 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:httprequest/models/models.dart';
+import 'package:httprequest/models/movie.dart';
 
 class HttpService {
   final String apiKey = '621180ba8d01d949ad2c2b21b55e444d';
@@ -11,7 +10,7 @@ class HttpService {
     final String uri = baseUrl + apiKey;
 
     http.Response result = await http.get(Uri.parse(uri));
-    if (result.statusCode == HttpStatus.ok) {
+    if (result.statusCode == 200) {
       print("Sukses");
       final jsonResponse = json.decode(result.body);
       final moviesMap = jsonResponse['results'];
@@ -21,6 +20,5 @@ class HttpService {
       print("Fail");
       return null;
     }
-    
   }
 }

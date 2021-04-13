@@ -1,5 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:httprequest/pages/movie_detail.dart';
+import 'package:httprequest/pages/movie_details.dart';
 import 'package:httprequest/service/http_service.dart';
 
 class MovieList extends StatefulWidget {
@@ -14,12 +15,14 @@ class _MovieListState extends State<MovieList> {
 
   Future initialize() async {
     movies = [];
-    movies = (await service.getPopularMovies()) as List;
+    movies = await service.getPopularMovies();
     setState(() {
       moviesCount = movies.length;
       movies = movies;
     });
   }
+
+  String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   @override
   void initState() {
@@ -27,8 +30,6 @@ class _MovieListState extends State<MovieList> {
     initialize();
     super.initState();
   }
-
-  String imgPath = 'https://image.tmdb.org/t/p/w500';
 
   @override
   Widget build(BuildContext context) {

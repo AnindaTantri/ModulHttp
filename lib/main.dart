@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'pages/movie_list.dart';
+import 'package:httprequest/pages/movie_list.dart';
 
 void main() {
   runApp(MyApp());
